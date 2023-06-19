@@ -33,7 +33,7 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import { selectAuth, setUser, userProfile } from '../store';
+import { selectAuth, setUser } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logout } from 'tabler-icons-react';
 import { useMemo } from 'react';

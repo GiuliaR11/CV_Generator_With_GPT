@@ -10,9 +10,21 @@ const getAllCVs = async () => {
     const response = await axios.get(API_URL);
     const data = response.data;
     return data
-    // Process the data or update your component state
   } catch (error) {
-    // Handle error
+  }
+}
+
+const deleteCV = async (id: string): Promise<any> => {
+  try {
+    const response = await axios.delete(`${API_URL}/${id}`,{
+      headers: {
+        authorization: token,
+      }
+    })
+    if (response)
+      return true
+  } catch (error) {
+    return false
   }
 }
 
@@ -57,12 +69,12 @@ const getCVById = async (id: string): Promise<CV | null> => {
     const data = response.data;
     return data
   } catch (error) {
-    // Handle error
     return null
   }
 }
 export {
   getAllCVs,
   createCV,
-  getCVById
+  getCVById,
+  deleteCV
 }
