@@ -5,6 +5,7 @@ import { memo } from "react";
 import { UseFormReturnType } from "@mantine/form";
 import { IEducationForm } from "../../../hooks/useEducationForm";
 import { randomId } from "@mantine/hooks";
+import { Education as EducationSectionInterface } from "../../../models/CV";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -21,7 +22,7 @@ export const Education = memo(({form}: Props) => {
   const { classes } = useStyles();
 
   const handleAddSectionClicked = () => {
-    form.insertListItem('education', 
+    form.insertListItem('educations', 
     {
       institution: '',
       degree: '',
@@ -34,8 +35,10 @@ export const Education = memo(({form}: Props) => {
   };
 
   const handleRemoveSectionClicked = (index: number) => {
-    form.removeListItem('education', index)
+    form.removeListItem('educations', index)
   }
+
+  console.log(form)
   
   return (
     <>
@@ -48,8 +51,8 @@ export const Education = memo(({form}: Props) => {
       <span>A varied education on your resume sums up the value that your learnings and background will bring to job.</span>
       <Box>
         <Accordion variant="separated" radius="sm" defaultValue={`Institution ${1}`}>
-          {form.values.education.map((educationSection, index) => 
-            <Accordion.Item value={`Institution ${index+1}`} className={classes.card}>
+          {form.values.educations.map((educationSection: EducationSectionInterface, index: number) => 
+            <Accordion.Item value={`Institution ${index+1}`} className={classes.card} key={index}>
               <Accordion.Control>{educationSection.institution.length ? educationSection.institution : `Institution ${index+1}`}</Accordion.Control>
               <Accordion.Panel>
                 <EducationSection 

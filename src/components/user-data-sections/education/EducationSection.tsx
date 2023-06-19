@@ -19,7 +19,7 @@ export function EducationSection({form, handleRemoveSection, index}: Props) {
             withAsterisk
             label="Institution"
             placeholder="e.g. Univeristy of Manchester"
-            {...form.getInputProps(`education.${index}.institution`)}
+            {...form.getInputProps(`educations.${index}.institution`)}
           />
         </Grid.Col>
         <Grid.Col span={6}>
@@ -27,38 +27,38 @@ export function EducationSection({form, handleRemoveSection, index}: Props) {
             withAsterisk
             label="Degree"
             placeholder="e.g. Bachelor"
-            {...form.getInputProps(`education.${index}.degree`)}
+            {...form.getInputProps(`educations.${index}.degree`)}
           />
         </Grid.Col>
         <Grid.Col span={3}>
         <MonthPickerInput
           label="Start date"
           placeholder="Pick date"
-          {...form.getInputProps(`education.${index}.startDate`)}
+          {...form.getInputProps(`educations.${index}.startDate`)}
         />
         </Grid.Col>
         <Grid.Col span={3} >
           <MonthPickerInput
             label="End date"
             placeholder="Pick date"
-            {...form.getInputProps(`education.${index}.endDate`)}
+            {...form.getInputProps(`educations.${index}.endDate`)}
           />
         </Grid.Col>
         <Grid.Col span={6}>
           <TextInput
             withAsterisk
             label="City"
-            {...form.getInputProps(`education.${index}.city`)}
+            {...form.getInputProps(`educations.${index}.city`)}
           />
         </Grid.Col>
         <Grid.Col span={12} >
           <Textarea
             minRows={2}
             label="Description"
-            {...form.getInputProps(`education.${index}.description`)}
+            {...form.getInputProps(`educations.${index}.description`)}
           />
         </Grid.Col>
-        {form.values.education.length > 1 &&
+        {form.values.educations.length > 1 &&
           <Grid.Col>
             <Button variant="outline" color="red" onClick={handleRemoveSection}>Delete section</Button>
           </Grid.Col>}

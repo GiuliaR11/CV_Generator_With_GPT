@@ -1,5 +1,7 @@
 import axios from "axios";
 import { CreateUserDto } from "../models/User";
+import { CV } from "../models/CV";
+import { LocalStorageKeys } from "../constants";
 
 const API_URL = 'http://localhost:4000/users'
 
@@ -28,7 +30,25 @@ const createUser = async (user: CreateUserDto) => {
   }
 }
 
+const getCVsByUser = async (userId: string): Promise<CV[]> => {
+  const token = localStorage.getItem(LocalStorageKeys.authorization);
+  try {
+    const response = await axios.get(`${API_URL}/${userId}/cvs`, {
+      headers: {
+        authorization: token,
+      }
+    });
+    const data = response.data;
+    return data
+    // Process the data or update your component state
+  } catch (error) {
+    // Handle error
+    return []
+  }
+}
+
 export {
   getAllUsers,
-  createUser
+  createUser,
+  getCVsByUser
 }

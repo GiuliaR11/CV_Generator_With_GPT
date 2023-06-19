@@ -11,11 +11,13 @@ import {
 } from '@mantine/core';
 import { ForgotPasswordInput } from '../bp-components/ForgotPasswordInput';
 import { useForm } from '@mantine/form';
-import { useEffect, useState } from 'react';
-import { createUser, getAllUsers } from '../services/UserService';
+import { useState } from 'react';
+import { createUser } from '../services/UserService';
 import { signIn } from '../services/AuthService';
-import { CreateUserDto, UserDto } from '../models/User';
+import { CreateUserDto } from '../models/User';
 import { useNavigate } from 'react-router-dom';
+import { setLogIn } from '../store/slices/auth-slice';
+import { useDispatch } from 'react-redux';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -50,12 +52,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function AuthenticationPage() {
+  const dispatch = useDispatch();
 
   const [isRegistering, setIsRegistering] = useState(false)
-
-  useEffect(() => {
-    getAllUsers()
-  }, []);
 
   const { classes } = useStyles();
 
@@ -74,8 +73,8 @@ export function AuthenticationPage() {
       password: (value: string) => {
         return value.trim().length === 0 
           ? 'Password is required' 
-          : value.trim().length < 6 
-            ? 'Password must have at least 6 characters' 
+          : value.trim().length < 2 
+            ? 'Password must have at least 2 characters' 
             : null
       }
       ,
@@ -85,29 +84,28 @@ export function AuthenticationPage() {
     validateInputOnBlur: ['email', 'password', 'firstName', 'lastName']
   });
 
-  const handleSubmitHandler = async (values: CreateUserDto | UserDto) => {
+  const handleSubmitHandler = async (values: CreateUserDto) => {
     loginForm.validate()
     
-    if (loginForm.isValid()) {
-      if (isRegistering) {
-        const user = {
-          firstName: (values as CreateUserDto).firstName,
-          lastName: (values as CreateUserDto).lastName,
-          password: values.password,
-          email: values.email
-        }
-        await createUser(user)
-        return
-      }
-      const res = await signIn({
-        password: values.password,
-        email: values.email
-      })
-      if (res.statusCode === 200) {
-        const { user } = res
-        localStorage.setItem('user', JSON.stringify({...user, access_token: res['access_token']}))
-        navigate("/");
-      }
+    if (!loginForm.isValid()) {
+      return;
+    }
+
+
+    if (isRegistering) {
+      await createUser(values);
+      return;
+    }
+
+    const isLoggedIn = await signIn({
+      password: values.password,
+      email: values.email
+    });
+  
+    if (isLoggedIn) {
+      dispatch(setLogIn(true));
+      navigate("/");
+      return;
     }
   }
 

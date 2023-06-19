@@ -4,34 +4,34 @@ import { randomId } from "@mantine/hooks";
 export interface IEmploymentHistorySectionForm {
   jobTitle: string;
   employer: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate: string | Date;
   description: string;
   city: string;
   key: string
 }
 
 export interface IEmploymentHistoryForm {
-  employmentHistory: IEmploymentHistorySectionForm[]
+  employmentHistories: IEmploymentHistorySectionForm[]
 }
 
 export const useEmploymentHistoryForm = () => useForm<IEmploymentHistoryForm>({
-    initialValues: {
-      employmentHistory: [
-        {
-          jobTitle: '',
-          employer: '',
-          startDate: '',
-          endDate: '',
-          city: '',
-          description: '',
-          key: randomId()
-        }
-      ],
-    },
+    // initialValues: {
+    //   employmentHistories: [
+    //     {
+    //       jobTitle: '',
+    //       employer: '',
+    //       startDate: '',
+    //       endDate: '',
+    //       city: '',
+    //       description: '',
+    //       key: randomId()
+    //     }
+    //   ],
+    // },
 
     validate: {
-      employmentHistory: {
+      employmentHistories: {
         jobTitle: (value) => value.trim().length > 0 ? null : 'Job title is required',
         employer: (value: string) => value.trim().length > 0 ? null : 'Employer is required',
         startDate: (value) => value ? null : 'Start Date is required',

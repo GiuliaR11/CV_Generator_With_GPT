@@ -18,6 +18,8 @@ import {
   ScrollArea,
   rem,
   Avatar,
+  Menu,
+  ActionIcon,
 } from '@mantine/core';
 import { MantineLogo } from '@mantine/ds';
 import { useDisclosure } from '@mantine/hooks';
@@ -31,6 +33,11 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
+import { selectAuth, setUser, userProfile } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Logout } from 'tabler-icons-react';
+import { useMemo } from 'react';
+import { LocalStorageKeys } from '../constants';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -74,9 +81,8 @@ const useStyles = createStyles((theme) => ({
     marginTop: theme.spacing.sm,
     padding: `${theme.spacing.md} calc(${theme.spacing.md} * 2)`,
     paddingBottom: theme.spacing.xl,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
-    }`,
+    borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
+      }`,
   },
 
   hiddenMobile: {
@@ -129,11 +135,7 @@ export function DoubleHeader() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
-
-  const isUserLoggedIn = () => {
-    const userData = localStorage.getItem('user')
-    return userData
-  }
+  const auth = useSelector(selectAuth);
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -152,6 +154,31 @@ export function DoubleHeader() {
       </Group>
     </UnstyledButton>
   ));
+
+  const userInitials = useMemo(() => {
+    const { user, isLoggedIn } = auth;
+
+    if (!isLoggedIn || !user) {
+      return null;     
+    }
+
+    const initials = `${user?.firstName.charAt(0).toLocaleUpperCase()}${user?.lastName.charAt(0).toLocaleUpperCase()}`;
+    return (
+      <Menu.Target>
+        <ActionIcon variant="transparent">
+          <Avatar color="cyan" radius="xl">{initials}</Avatar>
+        </ActionIcon>
+      </Menu.Target>
+
+    )
+  }, [auth]);
+
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    dispatch(setUser(null));
+    localStorage.removeItem(LocalStorageKeys.authorization);
+  }
 
   return (
     <Box>
@@ -173,7 +200,7 @@ export function DoubleHeader() {
                     <IconChevronDown size={16} color={theme.fn.primaryColor()} />
                   </Center>
                 </Link>
-                
+
               </HoverCard.Target>
 
               <HoverCard.Dropdown sx={{ overflow: 'hidden' }}>
@@ -209,22 +236,29 @@ export function DoubleHeader() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <Link to="/cv" className={classes.link}>
+            {/* <Link to="/cv" className={classes.link}>
               Create your resume
             </Link>
             <Link to="/template">
-              <Button>View Template</Button>
+              <Button>Create your resume</Button>
+            </Link> */}
+            <Link to="/my-cvs" className={classes.link}>
+              <Button variant='light'>My CVs</Button>
             </Link>
           </Group>
 
           <Group className={classes.hiddenMobile}>
-            <Link to="/login">
+            {!auth.isLoggedIn && <Link to="/login">
               <Button>Log in</Button>
-            </Link>
-            {isUserLoggedIn() && <Avatar color="cyan" radius="xl">MK</Avatar>}
+            </Link>}
+            {auth.isLoggedIn &&
+              <Menu shadow="md" width={150} offset={0}>
+                {userInitials}
+                <Menu.Dropdown>
+                  <Menu.Item icon={<Logout size={14} />} onClick={handleLogOut}>Log Out</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>}
           </Group>
-
-          <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
         </Group>
       </Header>
 

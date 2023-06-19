@@ -4,34 +4,34 @@ import { randomId } from "@mantine/hooks";
 export interface IEducationSectionForm {
   institution: string
   degree: string
-  startDate: string
-  endDate: string
+  startDate: string | Date
+  endDate: string | Date
   city: string
   description: string
   key: string
 }
 
 export interface IEducationForm {
-  education: IEducationSectionForm[]
+  educations: IEducationSectionForm[]
 }
 
 export const useEducationForm = () => useForm<IEducationForm>({
-    initialValues: {
-      education: [
-        {
-          institution: '',
-          degree: '',
-          startDate: '',
-          endDate: '',
-          city: '',
-          description: '',
-          key: randomId()
-        }
-      ],
-    },
+    // initialValues: {
+    //   educations: [
+    //       {
+    //         institution: '',
+    //         degree: '',
+    //         startDate: '',
+    //         endDate: '',
+    //         city: '',
+    //         description: '',
+    //         key: randomId()
+    //       }
+    //     ],
+    // },
 
     validate: {
-      education: {
+      educations: {
         institution: (value) => value.trim().length > 0 ? null : 'Institution is required',
         degree: (value: string) => value.trim().length > 0 ? null : 'Degree is required',
         startDate: (value) => value ? null : 'Start date is required',

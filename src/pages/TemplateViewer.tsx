@@ -1,5 +1,5 @@
-import { Card, SimpleGrid, Image, Group, Badge, Button, Text, Container, createStyles, Stack, Flex } from "@mantine/core";
-import { useState } from "react";
+import { Card, SimpleGrid, Image, Group, Badge, Button, Text, Container, createStyles, Stack } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -7,12 +7,17 @@ const useStyles = createStyles((theme) => ({
     marginBottom: '2rem'
   },
   selected: {
-    borderColor: theme.colors.blue,
-    border: '0.5px solid'
+    border: '0.5px solid',
+    borderColor: theme.colors.blue[3],
   }
 }))
 
-export function TemplateViewer() {
+interface TemplateViewerProps {
+  selectedTemplate: string
+  setSelectedTemplate: Dispatch<SetStateAction<any>>
+}
+
+export function TemplateViewer({setSelectedTemplate, selectedTemplate}: TemplateViewerProps) {
   const { classes } = useStyles()
 
   const templates = [
@@ -54,14 +59,11 @@ export function TemplateViewer() {
     },
   ]
 
-  const [selectedTemplate, setSelectedTemplate] = useState(templates[0])
-
   return (
     <Container className={classes.container}>
       <SimpleGrid cols={3} spacing="xl">
         {templates.map(template =>
-        
-          <Card shadow="sm" padding="lg" radius="md" className={classes.selected}>
+          <Card shadow="sm" padding="lg" radius="md" className={selectedTemplate === template.title ? classes.selected : ''}>
             <Card.Section>
               <Image
                 src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
@@ -90,7 +92,7 @@ export function TemplateViewer() {
                 fullWidth 
                 mt="md" 
                 radius="md"
-                onClick={() => setSelectedTemplate(template)}
+                onClick={() => setSelectedTemplate(template.title)}
               >
                 Choose template
               </Button>
