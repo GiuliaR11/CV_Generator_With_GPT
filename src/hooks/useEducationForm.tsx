@@ -16,19 +16,19 @@ export interface IEducationForm {
 }
 
 export const useEducationForm = () => useForm<IEducationForm>({
-    // initialValues: {
-    //   educations: [
-    //       {
-    //         institution: '',
-    //         degree: '',
-    //         startDate: '',
-    //         endDate: '',
-    //         city: '',
-    //         description: '',
-    //         key: randomId()
-    //       }
-    //     ],
-    // },
+    initialValues: {
+      educations: [
+          {
+            institution: '',
+            degree: '',
+            startDate: '',
+            endDate: '',
+            city: '',
+            description: '',
+            key: randomId()
+          }
+        ],
+    },
 
     validate: {
       educations: {

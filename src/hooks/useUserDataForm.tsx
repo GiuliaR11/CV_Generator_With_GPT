@@ -1,8 +1,8 @@
 
 import { randomId } from "@mantine/hooks"
-import { CV, Education } from "../models/CV"
+import { CV } from "../models/CV"
 import { useCVDetailsForm } from "./useCVDetailsForm"
-import { IEducationSectionForm, useEducationForm } from "./useEducationForm"
+import { useEducationForm } from "./useEducationForm"
 import { useEmploymentHistoryForm } from "./useEmploymentHistoryForm"
 import { usePersonalDetailsForm } from "./usePersonalDetailsForm"
 

@@ -28,11 +28,11 @@ export const usePersonalDetailsForm = () => useForm<IPersonalDetailsForm>({
     wantedJobTitle: (value) => value.trim().length > 0 ? null : 'Job title is required',
     firstName: (value: string) => value.trim().length > 0 ? null : 'First name is required',
     lastName: (value) => value.trim().length > 0 ? null : 'Last name is required',
-    phone: (value) => value.trim().length > 0 ? null : 'Phone is required',
+    phone: (value) => value.trim().length > 9 ? null : 'Invalid phone',
     email: (value) => /^\S+@\S+$/.test(value) ? null : 'Invalid email',
     city: (value) => value.trim().length > 0 ? null : 'City is required',
     country: (value) => value.trim().length > 0 ? null : 'Country is required',
     professionalSummary: (value) => value.trim().length > 0 ? null : 'Professional summary is required',
   },
-  validateInputOnBlur: ['wantedJobTitle', 'firstName', 'lastName', 'email', 'phone']
+  validateInputOnBlur: ['wantedJobTitle', 'firstName', 'lastName', 'email', 'phone', 'professionalSummary']
 });

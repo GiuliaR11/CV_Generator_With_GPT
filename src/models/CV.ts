@@ -1,3 +1,5 @@
+import { randomId } from "@mantine/hooks"
+
 export type Templates = 'Sydney' | 'Vancouver' | 'Oslo' | 'Rio' | 'Singapore' | 'Madrid'
 
 export interface CV {
@@ -11,6 +13,7 @@ export interface CV {
 }
 
 export interface PersonalDetails {
+  id?: any
   wantedJobTitle: string;
   professionalSummary: string;
   firstName: string;
@@ -22,12 +25,14 @@ export interface PersonalDetails {
 }
 
 export interface EmploymentHistory {
+  id?: any
   jobTitle: string;
   employer: string;
   startDate: string | Date;
   endDate: string | Date;
   city: string;
   description: string;
+  key: string
 }
 
 export interface Education {
@@ -39,4 +44,42 @@ export interface Education {
   city: string;
   description: string;
   key?: string
+}
+
+export const newEmptyCV: CV = {
+  name: '',
+  templateName: 'Sydney',
+  templateColor: '',
+  personalDetails: {
+    wantedJobTitle: '',
+    professionalSummary: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    country: '',
+    city: ''
+  },
+  employmentHistories: [
+    {
+      jobTitle: '',
+      employer: '',
+      startDate: '',
+      endDate: '',
+      city: '',
+      description: '',
+      key: randomId(),
+    }
+  ],
+  educations: [
+    {
+      institution: '',
+      degree: '',
+      startDate: '',
+      endDate: '',
+      city: '',
+      description: '',
+      key: randomId(),
+    }
+  ],
 }

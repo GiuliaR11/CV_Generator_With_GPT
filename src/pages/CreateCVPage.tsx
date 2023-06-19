@@ -6,8 +6,10 @@ import { useUserDataForm } from "../hooks";
 import { Template } from "../components/cv-templates/Template";
 import { Check, Download } from "tabler-icons-react";
 import { createCV, getCVById } from "../services/CVService";
-import { CV, Templates } from "../models/CV";
-import { useParams } from "react-router-dom";
+import { CV, Templates, newEmptyCV } from "../models/CV";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../store";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -23,7 +25,7 @@ interface Props {
 
 export function CreateCVPage({activeStep, isViewMode}: Props) {
   // @ts-ignore
-  const [cv, setCv] = useState<CV | null>(null)
+  const [cv, setCv] = useState<CV | null>(newEmptyCV)
   let { id } = useParams()
 
   const [forms, setForms] = useUserDataForm();
@@ -39,14 +41,28 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
     }
   }, [id]);
 
-  const isCvDataValid = () => {
+  const areCVFormsValid = () => {
     return forms.personalDetails.isValid() && 
       forms.employmentHistories.isValid() && 
       forms.personalDetails.isValid() &&
       forms.cvdetails.isValid()
   }
 
+  const validateForm = () => {
+    const {cvdetails, personalDetails, employmentHistories, educations} = forms
+    const allForms = [cvdetails, personalDetails, employmentHistories, educations];
+    allForms.forEach(form => {
+      form.validate()
+    });
+  }
+
   const nextStep = () => {
+    if (active === 0) {
+      validateForm()
+    }
+    if (!areCVFormsValid()) {
+      return
+    }
     setActive((current) => (current < 3 ? current + 1 : current))
   };
 
@@ -94,6 +110,11 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
       }
   }
 
+  const navigate = useNavigate();
+  const auth = useSelector(selectAuth);
+  const {user} = auth
+  const userId = user?.id
+
   const handleSaveCV = () => {
       createCV({
         name: forms.cvdetails.values.name,
@@ -102,8 +123,13 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
         educations: forms.educations.values.educations,
         personalDetails: forms.personalDetails.values,
         employmentHistories: forms.employmentHistories.values.employmentHistories
+      }, userId)
+      .then((r) => {
+        console.log(r)
+        if (r) {
+          navigate('/my-cvs')
+        } 
       })
-      .then(r => console.log(r))
     }
 
   const [selectedTemplate, setSelectedTemplate] = useState(cv?.templateName ?? 'Sydney')
@@ -142,10 +168,10 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
         <Group position="center" mt="xl">
           {active > 0 && <Button variant="default" disabled={active === 0} onClick={prevStep}>Back</Button>}
           {active < 2 && <Button onClick={nextStep}>Next step</Button>}
-          {active ===2 && <Button variant="light" leftIcon={<Download />} onClick={handleDownload}>
+          {active === 2 && <Button variant="light" leftIcon={<Download />} onClick={handleDownload}>
             Download
           </Button>}
-          {active ===2 && <Button leftIcon={<Check />} onClick={handleSaveCV}>
+          {active === 2 && <Button leftIcon={<Check />} onClick={handleSaveCV}>
             Save
           </Button>}
         </Group>

@@ -6,6 +6,10 @@ export interface ICVDetailsForm {
 
 export const useCVDetailsForm = () => {
   return useForm<any>({
+    initialValues: {
+      name: '',
+    },
+
     validate: {
       name: (value) => value.trim().length > 0 ? null : 'File name is required',
     },
