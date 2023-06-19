@@ -8,7 +8,7 @@ import { CV } from "../../models/CV";
 const useStyles = createStyles((theme) => ({
   mainContainer: {
     padding: '0',
-    // height: '296mm',
+    height: '296mm',
     border: '0.1px solid',
     borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
   },
