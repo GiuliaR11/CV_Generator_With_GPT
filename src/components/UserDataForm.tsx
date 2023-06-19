@@ -5,7 +5,6 @@ import { Education } from "./user-data-sections/education/Education";
 import { FileText } from "tabler-icons-react";
 
 export function UserDataForm({forms}: any) {
-  console.log(forms)
   const useStyles = createStyles((theme) => ({
     card: {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -16,23 +15,6 @@ export function UserDataForm({forms}: any) {
   }))
 
   const { classes } = useStyles();
-
-  const handleOnCreateClicked = () => {
-    console.log(forms)
-    forms.cvdetails.validate()
-    forms.personalDetails.validate()
-    forms.employmentHistories.validate()
-    forms.educations.validate()
-    // if (forms.personalDetails.isValid() && forms.employmentHistories.isValid() && forms.personalDetails.isValid()) {
-    //   createCV({
-
-    //     educations: forms.education.values.educations,
-    //     personalDetails: forms.personalDetails.values,
-    //     employmentHistories: forms.employmentHistories.values.employmentHistories
-    //   })
-    //   .then(r => console.log(r))
-    // }
-  }
 
   return (
     <Card withBorder radius="md" className={classes.card}>

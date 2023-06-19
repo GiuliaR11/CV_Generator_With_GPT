@@ -9,7 +9,6 @@ const getAllCVs = async () => {
   try {
     const response = await axios.get(API_URL);
     const data = response.data;
-    console.log(data)
     return data
     // Process the data or update your component state
   } catch (error) {
@@ -22,6 +21,16 @@ const createCV = async (cv: CV, userId: string): Promise<any> => {
     const response = await axios.post(API_URL,
       {
         ...cv, 
+        personalDetails: {
+          city: cv.personalDetails.city,
+          wantedJobTitle: cv.personalDetails.wantedJobTitle,
+          professionalSummary: cv.personalDetails.professionalSummary,
+          firstName: cv.personalDetails.firstName,
+          lastName: cv.personalDetails.lastName,
+          email: cv.personalDetails.email,
+          phone: cv.personalDetails.phone,
+          country: cv.personalDetails.country,
+        },
         user: {
           id: userId
         }

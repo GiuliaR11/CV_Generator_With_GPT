@@ -37,7 +37,7 @@ export function MyCVsPage() {
             <Card shadow="sm" padding="lg" radius="md">
               <Card.Section>
                 <Stack mt="md" align="center">
-                    <Text weight={500}>{cv.name}</Text>
+                    <Text weight={500} color="blue">{cv.name}</Text>
                   </Stack>
                 <Image
                   src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"

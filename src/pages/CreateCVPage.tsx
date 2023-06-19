@@ -37,6 +37,8 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
       .then((cv) => {
         setForms(cv)
         setCv(cv);
+        setSelectedTemplate(cv?.templateName ?? 'Sydney')
+        setSelectedTemplateColor(cv?.templateColor ?? '#827A72')
       })
     }
   }, [id]);
@@ -49,11 +51,13 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
   }
 
   const validateForm = () => {
-    const {cvdetails, personalDetails, employmentHistories, educations} = forms
-    const allForms = [cvdetails, personalDetails, employmentHistories, educations];
-    allForms.forEach(form => {
-      form.validate()
-    });
+    if (forms) {
+      const {cvdetails, personalDetails, employmentHistories, educations} = forms
+      const allForms = [cvdetails, personalDetails, employmentHistories, educations];
+      allForms.forEach(form => {
+        form.validate()
+      });
+    }
   }
 
   const nextStep = () => {
@@ -117,6 +121,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
 
   const handleSaveCV = () => {
       createCV({
+        id: cv?.id,
         name: forms.cvdetails.values.name,
         templateName: selectedTemplate as Templates,
         templateColor: selectedTemplateColor,
@@ -132,7 +137,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
       })
     }
 
-  const [selectedTemplate, setSelectedTemplate] = useState(cv?.templateName ?? 'Sydney')
+  const [selectedTemplate, setSelectedTemplate] = useState('Sydney')
   const [selectedTemplateColor, setSelectedTemplateColor] = useState('#827A72')
 
   const { classes } = useStyles();
@@ -147,6 +152,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
             />}
           </Stepper.Step>
           <Stepper.Step label="Second step" description="Choose a template">
+            <span>{cv?.templateName} {selectedTemplate}</span>
             <TemplateViewer 
               setSelectedTemplate={setSelectedTemplate}
               selectedTemplate={selectedTemplate}
