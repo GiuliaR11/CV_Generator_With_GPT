@@ -72,7 +72,7 @@ const AppRoutes = () => {
         } />
         <Route path="/my-cvs/:id" element={
           <ProtectedRoute>
-            <CreateCVPage activeStep={0} isViewMode/>
+            <CreateCVPage activeStep={0}/>
           </ProtectedRoute>
         } />
       </Routes>

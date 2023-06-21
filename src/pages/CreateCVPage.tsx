@@ -152,7 +152,6 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
             />}
           </Stepper.Step>
           <Stepper.Step label="Second step" description="Choose a template">
-            <span>{cv?.templateName} {selectedTemplate}</span>
             <TemplateViewer 
               setSelectedTemplate={setSelectedTemplate}
               selectedTemplate={selectedTemplate}
@@ -160,7 +159,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
           </Stepper.Step>
           <Stepper.Step label="Final step" description="Export CV">
             <Template
-              cv={cv}
+              forms={forms}
               isViewMode={isViewMode}
               selectedTemplate={selectedTemplate} 
               selectedColor={selectedTemplateColor}

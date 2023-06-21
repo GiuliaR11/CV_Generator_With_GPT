@@ -3,7 +3,7 @@ import { Sydney } from "./sydney/Sydney";
 import { Oslo } from "./oslo/Oslo";
 import { ColorSwatchesPicker } from "../ColorSwatchesPicker";
 import { Dispatch, SetStateAction } from "react";
-import { CV } from "../../models/CV";
+import { randomId } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   mainContainer: {
@@ -15,16 +15,50 @@ const useStyles = createStyles((theme) => ({
 }))
 
 interface Props {
-  cv: CV | null
   isViewMode?: boolean
   selectedTemplate: string
   selectedColor: string
+  forms: any
   setSelectedColor?: Dispatch<SetStateAction<string>>
 }
 
-export function Template ({selectedTemplate, selectedColor, setSelectedColor, isViewMode, cv}: Props) {
+export function Template ({selectedTemplate, selectedColor, setSelectedColor, forms, isViewMode}: Props) {
   const { classes } = useStyles();
-  // const [selectedTemplateColor, setSelectedTemplateColor] = useState('#323B4C')
+  const mappedEducations = forms.educations.values.educations.map((ed: any) => ({
+    institution: ed.institution ?? '',
+    degree: ed.degree ?? '',
+    startDate: new Date(ed.endDate) ?? new Date(),
+    endDate: new Date(ed.startDate) ?? new Date(),
+    city: ed.city ?? '',
+    description: ed.description ?? '',
+    key: randomId()
+  }))
+
+  const mappedEmploymentHistories = forms.employmentHistories.values.employmentHistories.map((history: any) => ({
+    jobTitle: history.jobTitle ?? '',
+    employer: history.employer ?? '',
+    startDate: new Date(history.endDate) ?? new Date(),
+    endDate: new Date(history.endDate) ?? new Date(),
+    city: history.city ?? '',
+    description: history.description ?? '',
+    key: randomId()
+  }))
+
+  const cv = {
+    name: forms.cvdetails.values.name,
+    personalDetails: {
+      wantedJobTitle: forms.personalDetails.values.wantedJobTitle,
+      professionalSummary: forms.personalDetails.values.professionalSummary,
+      firstName: forms.personalDetails.values.firstName,
+      lastName: forms.personalDetails.values.lastName,
+      email: forms.personalDetails.values.email,
+      phone: forms.personalDetails.values.phone,
+      country: forms.personalDetails.values.country,
+      city: forms.personalDetails.values.city
+    },
+    employmentHistories: mappedEmploymentHistories,
+    educations: mappedEducations,
+  }
 
   return (
     <>
