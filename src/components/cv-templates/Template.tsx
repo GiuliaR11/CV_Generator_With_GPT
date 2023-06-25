@@ -58,6 +58,10 @@ export function Template ({selectedTemplate, selectedColor, setSelectedColor, fo
     },
     employmentHistories: mappedEmploymentHistories,
     educations: mappedEducations,
+    languages: forms.languages.values.languages,
+    skills: forms.skills.values.skills,
+    technicalExpertise: forms.technicalExpertise
+    .values.technicalExpertise
   }
 
   return (

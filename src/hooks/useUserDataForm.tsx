@@ -5,13 +5,19 @@ import { useCVDetailsForm } from "./useCVDetailsForm"
 import { useEducationForm } from "./useEducationForm"
 import { useEmploymentHistoryForm } from "./useEmploymentHistoryForm"
 import { usePersonalDetailsForm } from "./usePersonalDetailsForm"
+import { useTechnicalExpertiseForm } from "./useTechnicalExpertiseForm"
+import { useSkillsForm } from "./useSkillsForm"
+import { useLanguagesForm } from "./useLanguagesForm"
 
 export const useUserDataForm: () => [forms: any, setForms: any] = () => {
   const forms = {
     cvdetails: useCVDetailsForm(),
     personalDetails: usePersonalDetailsForm(),
     employmentHistories: useEmploymentHistoryForm(),
-    educations: useEducationForm()
+    educations: useEducationForm(),
+    technicalExpertise: useTechnicalExpertiseForm(),
+    skills: useSkillsForm(),
+    languages: useLanguagesForm()
     };
 
 
@@ -40,6 +46,9 @@ export const useUserDataForm: () => [forms: any, setForms: any] = () => {
       key: randomId()
     }))
 
+    forms.languages.setValues({languages: cv.languages});
+    forms.skills.setValues({skills: cv.skills});
+    forms.technicalExpertise.setValues({technicalExpertise: cv.technicalExpertise});
     forms.cvdetails.setValues({name: cv.name});
     forms.personalDetails.setValues(cv.personalDetails);
     forms.educations.setValues({educations: mappedEducations})

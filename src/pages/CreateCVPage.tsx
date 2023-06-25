@@ -47,13 +47,16 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
     return forms.personalDetails.isValid() && 
       forms.employmentHistories.isValid() && 
       forms.personalDetails.isValid() &&
-      forms.cvdetails.isValid()
+      forms.cvdetails.isValid() &&
+      forms.skills.isValid() &&
+      forms.languages.isValid() &&
+      forms.technicalExpertise.isValid()
   }
 
   const validateForm = () => {
     if (forms) {
-      const {cvdetails, personalDetails, employmentHistories, educations} = forms
-      const allForms = [cvdetails, personalDetails, employmentHistories, educations];
+      const {cvdetails, personalDetails, employmentHistories, educations, skills, languages, technicalExpertise} = forms
+      const allForms = [cvdetails, personalDetails, employmentHistories, educations, skills, languages, technicalExpertise];
       allForms.forEach(form => {
         form.validate()
       });
@@ -127,6 +130,9 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
         templateColor: selectedTemplateColor,
         educations: forms.educations.values.educations,
         personalDetails: forms.personalDetails.values,
+        technicalExpertise: forms.technicalExpertise.values.technicalExpertise,
+        skills: forms.skills.values,
+        languages: forms.languages.values,
         employmentHistories: forms.employmentHistories.values.employmentHistories
       }, userId)
       .then((r) => {
@@ -141,11 +147,22 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
   const [selectedTemplateColor, setSelectedTemplateColor] = useState('#827A72')
 
   const { classes } = useStyles();
+
+  const handleOnStepClicked = (step: any) => {
+    if (active === 0) {
+      validateForm()
+    }
+    if (!areCVFormsValid()) {
+      return
+    }
+    
+    setActive(step)
+  }
   
   return (
     <>
       <Container className={classes.container}>
-        <Stepper active={active} onStepClick={nextStep} breakpoint="sm">
+        <Stepper active={active} onStepClick={handleOnStepClicked} breakpoint="sm">
           <Stepper.Step label="First step" description="Fill in your CV Data">
             {cv && <UserDataForm 
               forms={forms} 
@@ -166,9 +183,6 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
               setSelectedColor={setSelectedTemplateColor}
             />
           </Stepper.Step>
-          <Stepper.Completed>
-            Completed, click back button to get to previous step
-          </Stepper.Completed>
         </Stepper>
         <Group position="center" mt="xl">
           {active > 0 && <Button variant="default" disabled={active === 0} onClick={prevStep}>Back</Button>}

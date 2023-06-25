@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const EmploymentHistorySection = memo(({historySection}: Props) => {
-  console.log(historySection)
   return (
     <>
       <Grid>

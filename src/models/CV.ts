@@ -8,6 +8,9 @@ export interface CV {
   templateName: Templates
   templateColor: string
   personalDetails: PersonalDetails
+  technicalExpertise: string
+  skills: string[]
+  languages: string[]
   employmentHistories: EmploymentHistory[];
   educations: Education[];
 }
@@ -50,6 +53,9 @@ export const newEmptyCV: CV = {
   name: '',
   templateName: 'Sydney',
   templateColor: '',
+  technicalExpertise: '',
+  skills: [],
+  languages: [],
   personalDetails: {
     wantedJobTitle: '',
     professionalSummary: '',
@@ -82,4 +88,50 @@ export const newEmptyCV: CV = {
       key: randomId(),
     }
   ],
+}
+
+export const mapCVResponse = (data: CV) => {
+  return ({
+    id: data?.id,
+    name: data?.name,
+    templateName: data?.templateName,
+    templateColor: data?.templateColor,
+    technicalExpertise: data?.technicalExpertise,
+    skills: JSON.parse(data?.skills as unknown as string)['skills'],
+    languages: JSON.parse(data?.languages as unknown as string)['languages'],
+    personalDetails: {
+      wantedJobTitle: data?.personalDetails?.wantedJobTitle,
+      professionalSummary: data?.personalDetails?.professionalSummary,
+      firstName: data?.personalDetails?.firstName,
+      lastName: data?.personalDetails?.lastName,
+      email: data?.personalDetails?.email,
+      phone: data?.personalDetails?.phone,
+      country: data?.personalDetails?.country,
+      city: data?.personalDetails?.city
+    },
+    employmentHistories: data.employmentHistories.map((history: EmploymentHistory) => (
+      {
+        jobTitle: history?.jobTitle,
+        employer: history?.employer,
+        startDate: history?.startDate,
+        endDate: history?.endDate,
+        city: history?.city,
+        description: history?.description,
+        key: randomId(),
+        id: history?.id
+      })
+    ),
+    educations: data.educations.map((education: Education) => (
+      {
+        institution: education?.institution,
+        degree: education?.degree,
+        startDate: education?.startDate,
+        endDate: education?.endDate,
+        city: education?.city,
+        description: education?.description,
+        key: randomId(),
+        id: education?.id
+      }),
+    )
+  })
 }

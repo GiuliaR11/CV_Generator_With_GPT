@@ -1,8 +1,9 @@
-import { Card, Container, Grid, Group, Stack, TextInput, Title, createStyles } from "@mantine/core";
+import { ActionIcon, Card, Container, Grid, Group, Stack, TextInput, Textarea, Title, createStyles } from "@mantine/core";
 import { PersonalDetails } from "./user-data-sections/personal-details/PersonalDetails";
 import { EmploymentHistory } from "./user-data-sections/employment-history/EmploymentHistory";
 import { Education } from "./user-data-sections/education/Education";
-import { FileText } from "tabler-icons-react";
+import { FileText, Settings2 } from "tabler-icons-react";
+import { SkillsSection } from "./user-data-sections/SkillsSection";
 
 export function UserDataForm({forms}: any) {
   const useStyles = createStyles((theme) => ({
@@ -41,6 +42,25 @@ export function UserDataForm({forms}: any) {
             <PersonalDetails form={forms.personalDetails} />
             <EmploymentHistory form={forms.employmentHistories}/>
             <Education form={forms.educations}/>
+            <Stack spacing={'xl'}>
+              <SkillsSection form={forms.skills} name={'Skills'}/>
+              <SkillsSection form={forms.languages} name={'Languages'}/>
+            </Stack>
+            <Group>
+              <ActionIcon color="blue">
+                <Settings2/>
+              </ActionIcon>
+              <Title order={4}>Technical expertise</Title>
+            </Group>
+            <form>
+            <Textarea
+              minRows={5}
+              placeholder="e.g. Medium knowledge of React JS..."
+              label="Technical expertise"
+              required
+              {...forms.technicalExpertise.getInputProps('technicalExpertise')}
+            />
+            </form>
           </Stack>
         </Stack>
       </Container>

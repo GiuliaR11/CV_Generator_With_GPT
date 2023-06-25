@@ -37,8 +37,6 @@ export const Education = memo(({form}: Props) => {
   const handleRemoveSectionClicked = (index: number) => {
     form.removeListItem('educations', index)
   }
-
-  console.log(form)
   
   return (
     <>

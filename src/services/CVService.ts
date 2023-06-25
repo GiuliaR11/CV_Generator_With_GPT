@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CV } from "../models/CV";
+import { CV, mapCVResponse } from "../models/CV";
 import { LocalStorageKeys } from "../constants";
 
 const API_URL = 'http://localhost:4000/cv'
@@ -59,7 +59,7 @@ const createCV = async (cv: CV, userId: string): Promise<any> => {
   }
 }
 
-const getCVById = async (id: string): Promise<CV | null> => {
+const getCVById = async (id: string): Promise<CV | null | any> => {
   try {
     const response = await axios.get(`${API_URL}/${id}`, {
       headers: {
@@ -67,7 +67,7 @@ const getCVById = async (id: string): Promise<CV | null> => {
       }
     });
     const data = response.data;
-    return data
+    return mapCVResponse(data)
   } catch (error) {
     return null
   }
