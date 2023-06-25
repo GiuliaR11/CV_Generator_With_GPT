@@ -1,5 +1,8 @@
 import { Card, SimpleGrid, Image, Group, Badge, Button, Text, Container, createStyles, Stack } from "@mantine/core";
 import { Dispatch, SetStateAction } from "react";
+import sydney from '../assets/sydney.png'
+import vancouver from '../assets/vancouver.png'
+import oslo from '../assets/oslo.png'
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -59,6 +62,16 @@ export function TemplateViewer({setSelectedTemplate, selectedTemplate}: Template
     },
   ]
 
+  const getImage = (template: string) => {
+    if (template === 'Sydney')
+      return sydney
+    if (template === 'Vancouver')
+      return vancouver
+    if (template === 'Oslo')
+      return oslo
+    return "https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80"
+  }
+
   return (
     <Container className={classes.container}>
       <SimpleGrid cols={3} spacing="xl">
@@ -66,8 +79,8 @@ export function TemplateViewer({setSelectedTemplate, selectedTemplate}: Template
           <Card shadow="sm" padding="lg" radius="md" className={selectedTemplate === template.title ? classes.selected : ''}>
             <Card.Section>
               <Image
-                src="https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80"
-                height={300}
+                src={getImage(template.title)}
+                height={400}
                 alt="Norway"
               />
             </Card.Section>
