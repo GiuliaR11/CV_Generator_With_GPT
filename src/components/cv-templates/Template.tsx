@@ -1,9 +1,10 @@
-import { Container, createStyles } from "@mantine/core";
+import { Box, Container, Group, Image, Stack, createStyles } from "@mantine/core";
 import { Sydney } from "./sydney/Sydney";
 import { Oslo } from "./oslo/Oslo";
 import { ColorSwatchesPicker } from "../ColorSwatchesPicker";
 import { Dispatch, SetStateAction } from "react";
 import { randomId } from "@mantine/hooks";
+import { Vancouver } from "./vancouver/Vancouver";
 
 const useStyles = createStyles((theme) => ({
   mainContainer: {
@@ -12,17 +13,33 @@ const useStyles = createStyles((theme) => ({
     border: '0.1px solid',
     borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
   },
+  picker: {
+    width: '100%'
+  },
+  card: {
+    border: '0.1px solid',
+    borderRadius: '6px',
+    borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
+    cursor: 'pointer',
+  },
+  selected: {
+    border: '0.5px solid',
+    borderColor: theme.colors.blue[3],
+  }
 }))
 
 interface Props {
   isViewMode?: boolean
   selectedTemplate: string
   selectedColor: string
+  selectedBackground: string
   forms: any
+  backgrounds: any[],
   setSelectedColor?: Dispatch<SetStateAction<string>>
+  setSelectedBackground: Dispatch<SetStateAction<string>>
 }
 
-export function Template ({selectedTemplate, selectedColor, setSelectedColor, forms, isViewMode}: Props) {
+export function Template ({selectedTemplate, selectedColor, setSelectedColor, selectedBackground, backgrounds, setSelectedBackground, forms, isViewMode}: Props) {
   const { classes } = useStyles();
   const mappedEducations = forms.educations.values.educations.map((ed: any) => ({
     institution: ed.institution ?? '',
@@ -66,14 +83,36 @@ export function Template ({selectedTemplate, selectedColor, setSelectedColor, fo
 
   return (
     <>
-      {!isViewMode && <ColorSwatchesPicker 
-        colorPalette={['#323B4C', '#827A72', '#A4928D', '#7E918F','#7B7F82']}
-        selectedColor={selectedColor}
-        handleColorChange={setSelectedColor}
-      />}
+      <Stack>
+        {!isViewMode && <ColorSwatchesPicker
+          showSwatches={false}
+          colorPalette={['#323B4C', '#827A72', '#A4928D', '#7E918F','#7B7F82']}
+          selectedColor={selectedColor}
+          handleColorChange={setSelectedColor}
+        />}
+        {
+          selectedTemplate === 'Vancouver' && <Group pb={'lg'}>
+            {backgrounds.map(bg => (
+              <Box className={classes.card}>
+                <Image
+                  width={200}
+                  height={200}
+                  radius="md"
+                  src={bg}
+                  alt="Background image"
+                  onClick={() => setSelectedBackground(bg)}
+                />
+              </Box>
+            ))}
+          </Group>
+        }
+        
+      </Stack>
+      
       {cv && <Container className={classes.mainContainer} id='printableComponent'>
         {selectedTemplate === 'Sydney' && <Sydney cv={cv} selectedColor={selectedColor}/>}
         {selectedTemplate === 'Oslo' && <Oslo cv={cv} selectedColor={selectedColor}/>}
+        {selectedTemplate === 'Vancouver' && <Vancouver cv={cv} selectedColor={selectedColor} selectedBackground={selectedBackground}/>}
       </Container>}
     </>
   )

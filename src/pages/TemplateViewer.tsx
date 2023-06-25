@@ -92,6 +92,7 @@ export function TemplateViewer({setSelectedTemplate, selectedTemplate}: Template
                 fullWidth 
                 mt="md" 
                 radius="md"
+                disabled={!['Sydney', 'Vancouver', 'Oslo'].includes(template.title)}
                 onClick={() => setSelectedTemplate(template.title)}
               >
                 Choose template

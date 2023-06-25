@@ -5,20 +5,20 @@ interface SwatchesProps {
   colorPalette: string[]
   selectedColor: string
   handleColorChange?: Dispatch<SetStateAction<string>>
+  showSwatches: boolean
 }
 
-export function ColorSwatchesPicker ({colorPalette, handleColorChange, selectedColor}: SwatchesProps){
+export function ColorSwatchesPicker ({colorPalette, handleColorChange, selectedColor, showSwatches}: SwatchesProps){
   
   return (
-    <Box maw={200} mx="auto">
-      <ColorPicker
-        format="hex"
-        value={selectedColor}
-        onChange={handleColorChange}
-        withPicker={true}
-        fullWidth
-        swatches={colorPalette}
-      />
-    </Box>
+    <ColorPicker
+      pb={'xl'}
+      format="hex"
+      value={selectedColor}
+      onChange={handleColorChange}
+      withPicker={true}
+      fullWidth
+      swatches={showSwatches ? colorPalette : []}
+    />
   );
 }

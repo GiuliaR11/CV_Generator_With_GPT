@@ -7,6 +7,7 @@ export interface CV {
   name: string
   templateName: Templates
   templateColor: string
+  templateBackground: string
   personalDetails: PersonalDetails
   technicalExpertise: string
   skills: string[]
@@ -53,6 +54,7 @@ export const newEmptyCV: CV = {
   name: '',
   templateName: 'Sydney',
   templateColor: '',
+  templateBackground: '',
   technicalExpertise: '',
   skills: [],
   languages: [],
@@ -96,6 +98,7 @@ export const mapCVResponse = (data: CV) => {
     name: data?.name,
     templateName: data?.templateName,
     templateColor: data?.templateColor,
+    templateBackground: data?.templateBackground,
     technicalExpertise: data?.technicalExpertise,
     skills: JSON.parse(data?.skills as unknown as string)['skills'],
     languages: JSON.parse(data?.languages as unknown as string)['languages'],

@@ -10,6 +10,10 @@ import { CV, Templates, newEmptyCV } from "../models/CV";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../store";
+import abstract1 from '../assets/abstract1.jpg'
+import abstract2 from '../assets/abstract2.jpg'
+import abstract3 from '../assets/abstract3.jpg'
+import abstract4 from '../assets/abstract4.jpg'
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -39,6 +43,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
         setCv(cv);
         setSelectedTemplate(cv?.templateName ?? 'Sydney')
         setSelectedTemplateColor(cv?.templateColor ?? '#827A72')
+        setSelectedBackground(cv?.templateBackground ?? abstract1)
       })
     }
   }, [id]);
@@ -112,6 +117,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
           printWindow.document.open();
           printWindow.document.write(content);
           printWindow.document.close();
+          printWindow.document.title = forms.cvdetails.values.name;
           printWindow.print();
         }
       }
@@ -128,6 +134,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
         name: forms.cvdetails.values.name,
         templateName: selectedTemplate as Templates,
         templateColor: selectedTemplateColor,
+        templateBackground: selectedBackground ?? '',
         educations: forms.educations.values.educations,
         personalDetails: forms.personalDetails.values,
         technicalExpertise: forms.technicalExpertise.values.technicalExpertise,
@@ -145,6 +152,7 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
 
   const [selectedTemplate, setSelectedTemplate] = useState('Sydney')
   const [selectedTemplateColor, setSelectedTemplateColor] = useState('#827A72')
+  const [selectedBackground, setSelectedBackground] = useState(abstract1)
 
   const { classes } = useStyles();
 
@@ -158,6 +166,8 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
     
     setActive(step)
   }
+
+  const backgrounds = [abstract1, abstract2, abstract3, abstract4]
   
   return (
     <>
@@ -177,9 +187,12 @@ export function CreateCVPage({activeStep, isViewMode}: Props) {
           <Stepper.Step label="Final step" description="Export CV">
             <Template
               forms={forms}
+              backgrounds={backgrounds}
               isViewMode={isViewMode}
               selectedTemplate={selectedTemplate} 
               selectedColor={selectedTemplateColor}
+              selectedBackground={selectedBackground}
+              setSelectedBackground={setSelectedBackground}
               setSelectedColor={setSelectedTemplateColor}
             />
           </Stepper.Step>
