@@ -67,6 +67,7 @@ export function Summary({selectedColor, cv}: Props) {
         <Box>
           <Title className={classes.accentText} fz="xl">Technical Expertise</Title>
           <Divider my="sm" />
+          <Text fz="sm" color="dimmed">{cv.technicalExpertise}</Text>
         </Box>
       </Stack>
     </>

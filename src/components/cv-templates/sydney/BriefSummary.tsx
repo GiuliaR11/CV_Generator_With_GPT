@@ -53,22 +53,19 @@ export function BriefSummary({selectedColor, cv}: any){
               <Box>
                 <Text fw={500} className={classes.contrastText}>{`${moment(education.startDate).format("MMMM Do YYYY")} - ${moment(education.endDate).format("MMMM Do YYYY")}`}</Text>
                 <Text fz="sm" fw={400} className={classes.contrastText}>{education.degree}</Text>
-                <Text fz="sm" fw={100} className={classes.contrastText}>{`${education.institution}, ${education.city}`}</Text>
+                <Text fz="sm" fw={300} className={classes.contrastText}>{`${education.institution}, ${education.city}`}</Text>
               </Box>
             ))}
           </Stack>
           <Stack>
             <Box>
-              <Title className={classes.contrastText} fz="xl">Expertise</Title>
+              <Title className={classes.contrastText} fz="xl">Skills</Title>
               <Divider my="sm" />
             </Box>
             <ul className={classes.skills}>
-              <li>CSS</li>
-              <li>HTML</li>
-              <li>Javacript</li>
-              <li>Vue JS</li>
-              <li>VueX</li>
-              <li>Vuetify</li>
+              {cv.skills.map((skill: string) => (
+                <li>{skill}</li>
+              ))}
             </ul>
           </Stack>
           <Stack>
@@ -77,8 +74,9 @@ export function BriefSummary({selectedColor, cv}: any){
               <Divider my="sm" />
             </Box>
             <Box>
-              <Text fz="sm" fw={100} className={classes.contrastText}>English</Text>
-              <Text fz="sm" fw={100} className={classes.contrastText}>German</Text>
+              {cv.languages.map((language: string) => (
+                <Text fz="md" fw={300} className={classes.contrastText}>{language}</Text>
+              ))}
             </Box>
           </Stack>
         </Stack>

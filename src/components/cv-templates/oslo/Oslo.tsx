@@ -1,7 +1,8 @@
 import { Box, Group, Stack, Title, createStyles, Text } from "@mantine/core";
-import { Mail, MapPin, Phone } from "tabler-icons-react";
+import { Award, Language, Mail, MapPin, Phone, School, Settings2, User } from "tabler-icons-react";
 import { Education, EmploymentHistory } from "../../../models/CV";
 import moment from "moment";
+import { IconBriefcase } from "@tabler/icons-react";
 
 export function Oslo ({selectedColor, cv}: any) {
   
@@ -10,7 +11,7 @@ export function Oslo ({selectedColor, cv}: any) {
       fontFamily: 'serif'
     },
     header: {
-      height: '8rem',
+      height: '7rem',
       backgroundColor: selectedColor,
       display: 'flex',
       flexDirection: 'column',
@@ -62,7 +63,7 @@ export function Oslo ({selectedColor, cv}: any) {
             <Title className={classes.accentText} order={3} fw={400}>{cv.personalDetails.wantedJobTitle}</Title>
           </div>
           <hr className={classes.divider}/>
-          <Group className={classes.headerInfo} spacing={'xl'}>
+          <Group className={classes.headerInfo} spacing={'sm'}>
             <Group spacing={'xs'}>
               <Mail color="white"/>
               <Text fz="md" fw={400} className={classes.basicText}>{cv.personalDetails.email}</Text>
@@ -78,19 +79,28 @@ export function Oslo ({selectedColor, cv}: any) {
           </Group>
         </div>
         <Box p={30}>
-          <Stack spacing={'xl'}>
+          <Stack spacing={'sm'}>
             <Stack>
-              <Title fz="xl" className={classes.colorText}>Profile</Title>
-              <Text fz="md" pl={10} className={classes.text} fw={400}>{cv.personalDetails.professionalSummary}</Text>
+              <Group>
+                <User color={selectedColor}/>
+                <Title order={4} className={classes.colorText}>Profile</Title>
+              </Group>
+              <Text fz="sm" pl={40} className={classes.text} fw={400}>{cv.personalDetails.professionalSummary}</Text>
             </Stack>
             <Box>
               <Stack>
-                <Title className={classes.colorText} fz="xl">Proffesional Experience</Title>
+                <Group>
+                  <IconBriefcase color={selectedColor}/>
+                  <Title className={classes.colorText} order={4}>Proffesional Experience</Title>
+                </Group>
+
                 {cv.employmentHistories.map((exp: EmploymentHistory) => (
-                  <Stack pl={10} spacing={'xs'}>
-                    <Title fz="lg" className={classes.colorText}>{exp.jobTitle} at {exp.employer}</Title>
-                    <Text fz="md" className={classes.colorText}>{moment(exp.startDate).format("MMMM Do YYYY")} - {moment(exp.endDate).format("MMMM Do YYYY")}</Text>
-                    <Text fz="md" className={classes.text} fw={400}>{exp.description}</Text>
+                  <Stack pl={40} spacing={'xs'}>
+                    <Group>
+                      <Title order={5} className={classes.colorText}>{exp.jobTitle} at {exp.employer}</Title>
+                      <Text fz="sm" className={classes.text}>{moment(exp.startDate).format("MMMM Do YYYY")} - {moment(exp.endDate).format("MMMM Do YYYY")}</Text>
+                    </Group>
+                    <Text fz="sm" className={classes.text} fw={400}>{exp.description}</Text>
                   </Stack>
                 ))}
                 
@@ -98,16 +108,41 @@ export function Oslo ({selectedColor, cv}: any) {
             </Box>
             <Box>
               <Stack>
-                <Title className={classes.colorText} fz="xl">Education</Title>
+                <Group>
+                  <School color={selectedColor}/>
+                  <Title className={classes.colorText} order={4}>Education</Title>
+                </Group>
                 {cv.educations.map((ed: Education) => (
-                  <Stack pl={10} spacing={'xs'}>
-                    <Title fz="lg" className={classes.colorText}>{ed.degree}'s degree at {ed.institution}</Title>
-                    <Text fz="md" className={classes.colorText}>{moment(ed.startDate).format("MMMM Do YYYY")} - {moment(ed.endDate).format("MMMM Do YYYY")}</Text>
-                    <Text fz="md" className={classes.text} fw={400}>{ed.description}</Text>
+                  <Stack pl={40} spacing={'xs'}>
+                    <Group align="center">
+                      <Title order={5} className={classes.colorText}>{ed.degree}'s degree at {ed.institution}</Title>
+                      <Text fz="sm" className={classes.text}>{moment(ed.startDate).format("MMMM Do YYYY")} - {moment(ed.endDate).format("MMMM Do YYYY")}</Text>
+                    </Group>
                   </Stack>
                 ))}
               </Stack>
             </Box>
+            <Stack>
+              <Group>
+                <Settings2 color={selectedColor}/>
+                <Title order={4} className={classes.colorText}>Technical Expertise</Title>
+              </Group>
+              <Text fz="sm" pl={40} className={classes.text} fw={400}>{cv.technicalExpertise}</Text>
+            </Stack>
+            <Stack>
+              <Group>
+                <Award color={selectedColor}/>
+                <Title order={4} className={classes.colorText}>Skills</Title>
+              </Group>
+              <Text fz="sm" pl={40} className={classes.text} fw={400}>{cv.skills.join(', ')}</Text>
+            </Stack>
+            <Stack>
+              <Group>
+                <Language color={selectedColor}/>
+                <Title order={4} className={classes.colorText}>Languages</Title>
+              </Group>
+              <Text fz="sm" pl={40} className={classes.text} fw={400}>{cv.languages.join(', ')}</Text>
+            </Stack>
           </Stack>
         </Box>
       </Box>
