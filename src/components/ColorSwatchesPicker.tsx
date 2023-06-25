@@ -19,9 +19,6 @@ export function ColorSwatchesPicker ({colorPalette, handleColorChange, selectedC
         fullWidth
         swatches={colorPalette}
       />
-      <Text align="center" mt={5}>
-        {selectedColor}
-      </Text>
     </Box>
   );
 }
